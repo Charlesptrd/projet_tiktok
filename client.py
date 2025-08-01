@@ -6,15 +6,15 @@ API_URL = "https://projet-tiktok.onrender.com/run"  # <-- change cette URL
 
 # === Argument parser ===
 parser = argparse.ArgumentParser(description="Lancer un script distant via l'API Flask")
-parser.add_argument("script", help="Nom du script à exécuter (ex: test.py ou twitch)")
-parser.add_argument("--os", default="auto", choices=["auto", "mac", "linux", "win"], help="Système d'exploitation ciblé (défaut: auto)")
+parser.add_argument("script", help="Nom du script à exécuter (ex: mon_script.py)")
+parser.add_argument("args", nargs=argparse.REMAINDER, help="Arguments à transmettre au script")
 
 args = parser.parse_args()
 
 # === Corps de la requête ===
 payload = {
     "script": args.script,
-    "os": args.os
+    "args": args.args
 }
 
 try:
