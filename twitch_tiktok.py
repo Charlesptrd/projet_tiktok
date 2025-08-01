@@ -175,7 +175,8 @@ def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, music=Non
         caca = 0
 
 #tiktok_style_video("https://www.twitch.tv/videos/2524068137", 1.6, "4:17:23", "4:17:40", "vrai_compte_2", "Anyme le dictateur", "musics/sneaky.mp3", is_test=0, start_music=0)
-tiktok_style_video("https://www.twitch.tv/videos/2527578233", 1.6, "00:07:52", "00:08:10", "vrai_compte_2", "Anyme menace le fils du proprio", "musics/sad.mp3", is_test=0, start_music=0)
 
+#tiktok_style_video("https://www.twitch.tv/videos/2527578233", 1.6, "00:07:52", "00:08:10", "vrai_compte_2", "Anyme menace le fils du proprio", "musics/sad.mp3", is_test=0, start_music=0)#tiktok_style_video("https://www.twitch.tv/videos/2527578233", 1.6, "00:07:52", "00:08:10", "vrai_compte_2", "Anyme menace le fils du proprio", "musics/sad.mp3", is_test=0, start_music=0)
+tiktok_style_video("https://www.twitch.tv/videos/2527578233", 1.6, "00:07:52", "00:08:10", "vrai_compte_2", "Anyme menace le fils du proprio", "musics/sad.mp3", is_test=0, start_music=0)
 
 atexit.register(cleanup)
