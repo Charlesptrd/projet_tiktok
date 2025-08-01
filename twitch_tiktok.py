@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import atexit, os
 from textwrap import fill
 from upload import *
+import sys
 
 FONT_PATH = "/Library/Fonts/Arial.ttf"  # ← à adapter selon ton système
 TEXT_COLOR = "white"
@@ -14,6 +15,17 @@ FACTOR = 1.04
 
 
 moment = None
+
+def get_executable_path(env="auto"):
+    if env != "auto":
+        return {
+            "mac": "TwitchDownloaderCLI",
+            "linux": "TwitchDownloaderCLI_Linux",
+        }.get(env, "TwitchDownloaderCLI")
+    else:
+        return "TwitchDownloaderCLI"
+
+
 
 def cleanup():
     global moment
@@ -42,7 +54,7 @@ def process_audio(clip, noise_path="noise.mp3"):
     return audio
 
 
-def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, music=None, start_music=0 ,is_test=0):
+def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, exe, music=None, start_music=0 ,is_test=0, ):
     os.system("rm -r -f /Users/charles/Desktop/test/downloads/*")
 
     start_time = time_str_to_seconds(start_time)
@@ -58,9 +70,9 @@ def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, music=Non
     parse_2 = f"downloads/CLEAN_{moment}.mp4"
     parse_2 = parse_2.replace(":", "-").replace(" ", "_")
 
-
     print(" ⛔️ Telechargement du clip")
-    os.system(f'./TwitchDownloaderCLI videodownload --id "{URL}" -b {start_time} -e {end_time} -o "{parse}"')
+
+    os.system(f'./{exe} videodownload --id "{URL}" -b {start_time} -e {end_time} -o "{parse}"')
     print(" ✅ Telechargement terminé")
 
 
@@ -169,9 +181,13 @@ def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, music=Non
         upload_on_tiktok(f"{name_temps}", compte, titre)
         caca = 0
 
+env = sys.argv[1] if len(sys.argv) > 1 else "auto"
+exe = get_executable_path(env)
+os.chmod(exe, 0o755)
+
 #tiktok_style_video("https://www.twitch.tv/videos/2524068137", 1.6, "4:17:23", "4:17:40", "vrai_compte_2", "Anyme le dictateur", "musics/sneaky.mp3", is_test=0, start_music=0)
 
 #tiktok_style_video("https://www.twitch.tv/videos/2527578233", 1.6, "00:07:52", "00:08:10", "vrai_compte_2", "Anyme menace le fils du proprio", "musics/sad.mp3", is_test=0, start_music=0)#tiktok_style_video("https://www.twitch.tv/videos/2527578233", 1.6, "00:07:52", "00:08:10", "vrai_compte_2", "Anyme menace le fils du proprio", "musics/sad.mp3", is_test=0, start_music=0)
-tiktok_style_video("https://www.twitch.tv/videos/2527578233", 1.6, "00:08:38", "00:09:02", "vrai_compte_1", "Anyme imite samuel étienne", "musics/sneaky.mp3", is_test=0, start_music=0)
+tiktok_style_video("https://www.twitch.tv/videos/2527578233", 1.6, "00:08:38", "00:09:02", "vrai_compte_1", "Anyme imite samuel étienne", exe, music="musics/sneaky.mp3", is_test=0, start_music=0)
 
 atexit.register(cleanup)
