@@ -29,7 +29,7 @@ def remplacer_video(nouvelle_video_path, dossier_cible):
 
 
 def upload_on_tiktok(video_path, tiktok_username, title="Ceci est un titre oublié #fyp", date=0):
-    remplacer_video(video_path, "/Users/charles/Desktop/test/TiktokAutoUploader/VideosDirPath")
-    os.system(f' cd TiktokAutoUploader && ~/.pyenv/versions/3.10.14/envs/3.10-env/bin/python cli.py upload --user {tiktok_username} -v "{os.path.basename(video_path)}" -t "{title}" -sc {date}')
+    remplacer_video(video_path, "TiktokAutoUploader/VideosDirPath")
+    os.system(f' cd TiktokAutoUploader && python cli.py upload --user {tiktok_username} -v "{os.path.basename(video_path)}" -t "{title}" -sc {date}')
 
 #upload_on_tiktok("test.mp4", "compte_test", "Video chpquate #fyp #cat ")
