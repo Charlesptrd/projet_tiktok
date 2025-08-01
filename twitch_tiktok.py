@@ -87,7 +87,7 @@ def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, exe, musi
     stderr=sys.stderr
 )
     os.system("echo ✅ Convertion terminé\n")
-    os.system(f"{print(f"OUVERTURE de : '{parse_2}'")}")
+    os.system(f"echo OUVERTURE de : '{parse_2}'")
     
     
     clip = VideoFileClip(f'{parse_2}').with_speed_scaled(factor=FACTOR)
@@ -97,22 +97,6 @@ def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, exe, musi
 
     target_w, target_h = 1080*1, 1920*1
 
-    
-
-
-
-    from moviepy.video.fx import HeadBlur
-    def fx(t):
-        return background.w * (t / background.duration)  # X position (center)
-        
-    def fy(t):
-        return background.h * (t / background.duration)  # Y position (center)
-        
-    radius = 9999 # it is enough because it will crop on the video dimensions anyway
-    
-
-    # === Fond : zoom + crop pour remplir l'écran vertical ===
-    scale_bg = max(target_w / clip_w, target_h / clip_h)
     """
     background = clip.with_effects([
         vfx.Resize(scale_bg),
@@ -121,19 +105,19 @@ def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, exe, musi
     background = background.with_effects([HeadBlur(fx,fy,radius, intensity=50)])
     """
     background = VideoFileClip("assets/background2.mp4").subclipped(0, clip.duration)
-
+    os.system("echo ✅ on a charfe l'arriere plan")
     # === Premier plan : largeur max = 1080px ===
     fg_scale = target_w*zoom / clip_w  # pour que width = 1080px
     foreground = clip.with_effects([
         vfx.Resize(fg_scale), vfx.MultiplyColor(1), vfx.Rotate(.3)
     ]).with_position(("center", 400))
-
+    os.system("echo ✅ premier plann")
     #filigranne INFLUPOSTEUR
     filigranne = ImageClip("assets/filigranne.png") \
     .with_duration(clip.duration) \
     .with_position(("center", 800)) \
     .with_opacity(0.4)  # 30% transparent
-
+    os.system("echo ✅ filigranne")
     """
     #Bas d'immage Influfloppeur.
     bas = ImageClip("assets/image2.png") \
@@ -142,7 +126,7 @@ def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, exe, musi
     """
     #layer anti detection 
     transparent_layer = ColorClip(size=(target_w, target_h), color=(0, 0, 0), duration=clip.duration).with_opacity(.1)
-
+    os.system("echo ✅ transparence")
 
     if is_test == 2:
         final = CompositeVideoClip(
@@ -155,6 +139,7 @@ def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, exe, musi
             [background, foreground, transparent_layer, filigranne],
             size=(target_w, target_h)
         )
+    os.system("echo ✅ Composite")
 
 
     
@@ -167,6 +152,7 @@ def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, exe, musi
     else:
         final = final.with_audio(clip.audio)
     
+    os.system("echo ✅ musique")
     #if exe == "TwitchDownloaderCLI":
         # === Prévisualisation final ===
         #temp = final.subclipped(0, 1)
@@ -175,7 +161,7 @@ def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, exe, musi
     name_temps = f"rendus/video_{moment}.mp4"
     name_temps = name_temps.replace(":", "-").replace(" ", "_")
 
-    os.system(f"rm -f {parse}")
+    os.system("echo ✅ on va charger le rendu")
     final.write_videofile(
         f"{name_temps}",
         fps=clip.fps,
@@ -183,13 +169,12 @@ def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, exe, musi
         audio_codec="aac",      # Codec audio compatible Mac/iPhone
         audio_bitrate="192k"   # Qualité audio
     )
-
-    os.system(f"rm -f {parse_2}")
+    os.system("echo ✅ rendu ecrit")
 
     if is_test == 0 :
         upload_on_tiktok(f"{name_temps}", compte, titre)
         caca = 0
-
+    os.system("echo ✅ Uppload fait")
 env = sys.argv[1] if len(sys.argv) > 1 else "auto"
 exe = get_executable_path(env)
 os.chmod(exe, 0o755)
