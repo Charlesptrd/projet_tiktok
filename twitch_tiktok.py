@@ -55,7 +55,7 @@ def process_audio(clip, noise_path="noise.mp3"):
 
 
 def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, exe, music=None, start_music=0 ,is_test=0, ):
-    os.system("rm -r -f /Users/charles/Desktop/test/downloads/*")
+    os.system("rm -r -f downloads/*")
 
     start_time = time_str_to_seconds(start_time)
     end_time = time_str_to_seconds(end_time)
@@ -158,12 +158,12 @@ def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, exe, musi
     else:
         final = final.with_audio(clip.audio)
     
+    if exe != "TwitchDownloaderCLI":
+        # === Prévisualisation final ===
+        temp = final.subclipped(0, 1)
+        temp.preview()
 
-    # === Prévisualisation final ===
-    temp = final.subclipped(0, 1)
-    temp.preview()
-
-    name_temps = f"/Users/charles/Downloads/rendus/video_{moment}.mp4"
+    name_temps = f"rendus/video_{moment}.mp4"
     name_temps = name_temps.replace(":", "-").replace(" ", "_")
 
     os.system(f"rm -f {parse}")
