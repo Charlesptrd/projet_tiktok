@@ -13,28 +13,27 @@ def run_script():
     data = request.get_json()
     script = data.get("script")
     args = data.get("args", [])
-    
-    if not script:
-        return "❌ Aucun script spécifié.", 400
-
-    command = ["python", script] + args
-    print(f"▶️ Commande : {' '.join(command)}")
 
     def generate():
-        process = subprocess.Popen(
-            command,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            universal_newlines=True
-        )
+        try:
+            process = subprocess.Popen(
+                ["python", script] + args,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                bufsize=1
+            )
 
-        for line in iter(process.stdout.readline, ''):
-            yield line
+            for line in iter(process.stdout.readline, ''):
+                yield line
 
-        process.stdout.close()
-        process.wait()
+            process.stdout.close()
+            process.wait()
 
-    return Response(stream_with_context(generate()), mimetype='text/plain')
+        except Exception as e:
+            yield f"❌ Erreur : {str(e)}"
+
+    return Response(generate(), mimetype='text/plain')
 
 @app.route("/upload", methods=["POST"])
 def upload_file():
