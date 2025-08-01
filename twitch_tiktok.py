@@ -71,28 +71,28 @@ def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, exe, musi
     parse_2 = f"downloads/CLEAN_{moment}.mp4"
     parse_2 = parse_2.replace(":", "-").replace(" ", "_")
 
-    print(" ⛔️ Telechargement du clip\n")
+    os.system("echo ⛔️ Telechargement du clip")
 
     subprocess.run(
     [f"./{exe}", "videodownload", "--id", URL, "-b", str(start_time), "-e", str(end_time), "-o", parse],
     stdout=sys.stdout,
     stderr=sys.stderr
 )
-    print(" ✅ Telechargement terminé\n")
-
+    os.system("echo ✅ Telechargement terminé")
+    os.system("echo ⛔️  Convertion du clip")
 
     subprocess.run(
     ["ffmpeg", "-i", parse, "-map_chapters", "-1", "-c", "copy", parse_2],
     stdout=sys.stdout,
     stderr=sys.stderr
 )
-
-
-    print(f"OUVERTURE de : '{parse_2}'")
+    os.system("echo ✅ Convertion terminé\n")
+    os.system(f"{print(f"OUVERTURE de : '{parse_2}'")}")
+    
     
     clip = VideoFileClip(f'{parse_2}').with_speed_scaled(factor=FACTOR)
     clip = clip.subclipped(2, clip.duration)
-    print("✅ OUVERTURE terminé")
+    os.system("echo ✅ OUVERTURE terminé")
     clip_w, clip_h = clip.size
 
     target_w, target_h = 1080*1, 1920*1

@@ -1,5 +1,6 @@
 import os
 import subprocess
+import refresh
 
 def run(command):
     result = subprocess.run(command, shell=True, capture_output=True, text=True)
