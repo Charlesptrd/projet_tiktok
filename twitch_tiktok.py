@@ -158,10 +158,10 @@ def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, exe, musi
     else:
         final = final.with_audio(clip.audio)
     
-    if exe == "TwitchDownloaderCLI":
+    #if exe == "TwitchDownloaderCLI":
         # === Prévisualisation final ===
-        temp = final.subclipped(0, 1)
-        temp.preview()
+        #temp = final.subclipped(0, 1)
+        #temp.preview()
 
     name_temps = f"rendus/video_{moment}.mp4"
     name_temps = name_temps.replace(":", "-").replace(" ", "_")

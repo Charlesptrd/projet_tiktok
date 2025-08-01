@@ -1,5 +1,6 @@
 from flask import Flask, request, Response, stream_with_context
 import subprocess
+import os
 
 app = Flask(__name__)
 
@@ -34,6 +35,17 @@ def run_script():
         process.wait()
 
     return Response(stream_with_context(generate()), mimetype='text/plain')
+
+@app.route("/upload", methods=["POST"])
+def upload_file():
+    file = request.files.get("file")
+    if not file:
+        return "Aucun fichier reçu", 400
+
+    save_path = os.path.join(".", file.filename)
+    file.save(save_path)
+    return f"✅ Fichier {file.filename} mis à jour avec succès"
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
