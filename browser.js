@@ -1,5 +1,5 @@
 // Browser.js
-const Signer = require("./index");
+import Signer from "./index";
 
 var url = process.argv[2];
 var userAgent = process.argv[3];
@@ -7,7 +7,6 @@ var userAgent = process.argv[3];
 (async function main() {
   try {
     const signer = new Signer(url, userAgent);
-    //console.log("Launching signer with Playwright version:", require("playwright-core/package.json").version);
     await signer.init();
 
     const sign = await signer.sign(url);

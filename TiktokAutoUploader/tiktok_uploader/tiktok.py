@@ -108,8 +108,9 @@ def upload_video(session_user, video, title, schedule_time=0, allow_comment=1, a
 		return False
 
 	# get project_id
+	print("On est la 1 1")
 	video_id, session_key, upload_id, crcs, upload_host, store_uri, video_auth, aws_auth = upload_to_tiktok(video, session)
-
+	print("On est la 1 2")
 	url = f"https://{upload_host}/{store_uri}?uploadID={upload_id}&phase=finish&uploadmode=part"
 	headers = {
 		"Authorization": video_auth,
@@ -125,6 +126,7 @@ def upload_video(session_user, video, title, schedule_time=0, allow_comment=1, a
 		r = requests.post(url, headers=headers, data=data)
 		if not assert_success(url, r):
 			return False
+	print("On est la 1 3")
 	#
 	# url = f"https://www.tiktok.com/top/v1?Action=CommitUploadInner&Version=2020-11-19&SpaceName=tiktok"
 	# data = '{"SessionKey":"' + session_key + '","Functions":[{"name":"GetMeta"}]}'
@@ -136,7 +138,7 @@ def upload_video(session_user, video, title, schedule_time=0, allow_comment=1, a
 	r = session.post(url, auth=aws_auth, data=data)
 	if not assert_success(url, r):
 		return False
-
+	print("On est la 1 4")
 	# publish video
 	url = "https://www.tiktok.com"
 	headers = {
@@ -157,7 +159,7 @@ def upload_video(session_user, video, title, schedule_time=0, allow_comment=1, a
 		brand = brand[:-1]
 	markup_text, text_extra = convert_tags(title, session)
 
-
+	print("On est la 1 5")
 
 	# Added for showing history of data changes...
 
@@ -284,7 +286,7 @@ def upload_video(session_user, video, title, schedule_time=0, allow_comment=1, a
 	# Add schedule_time to the payload if it's provided
 	if schedule_time > 0:
 		data["feature_common_info_list"][0]["schedule_time"] = schedule_time + int(time.time())
-	
+	print("On est la 1 6")
 	uploaded = False
 	while True:
 		mstoken = session.cookies.get("msToken")
@@ -298,9 +300,12 @@ def upload_video(session_user, video, title, schedule_time=0, allow_comment=1, a
 			return False
 
 		try:
+			print("Signatures (raw):", repr(signatures))
 			tt_output = json.loads(signatures)["data"]
 		except (json.JSONDecodeError, KeyError) as e:
+			print("On est la 1 final")
 			print(f"[-] Failed to parse signature data: {str(e)}")
+			print("On est la 1 final 2")
 			return False
 
 		project_post_dict = {
@@ -367,7 +372,7 @@ def upload_video(session_user, video, title, schedule_time=0, allow_comment=1, a
 def upload_to_tiktok(video_file, session):
 	url = "https://www.tiktok.com/api/v1/video/upload/auth/?aid=1988"
 	r = session.get(url)
-	print("Réponse complète:", r.text)
+	#print("Réponse complète:", r.text)
 	if not assert_success(url, r):
 		return False
 
@@ -382,8 +387,9 @@ def upload_to_tiktok(video_file, session):
 		video_content = f.read()
 	file_size = len(video_content)
 	url = f"https://www.tiktok.com/top/v1?Action=ApplyUploadInner&Version=2020-11-19&SpaceName=tiktok&FileType=video&IsInner=1&FileSize={file_size}&s=g158iqx8434"
-
+	print("On est la 6")
 	r = session.get(url, auth=aws_auth)
+	print("On est la 5")
 	if not assert_success(url, r):
 		return False
 
@@ -397,9 +403,11 @@ def upload_to_tiktok(video_file, session):
 	chunk_size = 5242880
 	chunks = []
 	i = 0
+	print("On est la 4")
 	while i < file_size:
 		chunks.append(video_content[i: i + chunk_size])
 		i += chunk_size
+	print("On est la 3")
 	crcs = []
 	upload_id = str(uuid.uuid4())
 	for i in range(len(chunks)):
@@ -413,8 +421,9 @@ def upload_to_tiktok(video_file, session):
 			"Content-Disposition": 'attachment; filename="undefined"',
 			"Content-Crc32": crc,
 		}
-
+		print("On est la 1")
 		r = session.post(url, headers=headers, data=chunk)
+		print("On est la 2")
 
 	return video_id, session_key, upload_id, crcs, upload_host, store_uri, video_auth, aws_auth
 

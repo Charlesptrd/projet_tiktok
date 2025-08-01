@@ -40,10 +40,19 @@ class Signer {
       ignoreHTTPSErrors: true,
     };
   }
-
+  
   async init() {
+    const path = require('path');
+  const chromiumPath = path.join(
+    process.env.HOME,
+    '.cache',
+    'ms-playwright',
+    'chromium_headless_shell-1181',
+    'chrome-linux',
+    'headless_shell'
+  );
     if (!this.browser) {
-      this.browser = await chromium.launch(this.options);
+      this.browser = await chromium.launch({ headless: true, executablePath: chromiumPath});
     }
 
     let emulateTemplate = {

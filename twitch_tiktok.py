@@ -29,8 +29,8 @@ def get_executable_path(env="auto"):
 
 def cleanup():
     global moment
-    os.system(f"rm -f downloads/{moment}.mp4")
-    os.system(f"rm -f downloads/CLEAN_{moment}.mp4")
+    os.system(f"rm -f downloads/*")
+    os.system(f"rm -f rendus/*")
 
 
 def time_str_to_seconds(time_str):
@@ -178,6 +178,11 @@ def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, exe, musi
         upload_on_tiktok(f"{name_temps}", compte, titre)
         caca = 0
     os.system("echo ✅ Uppload fait")
+    os.system(f"rm -f downloads/*")
+    os.system(f"rm -f rendus/*")
+
+
+
 env = sys.argv[1] if len(sys.argv) > 1 else "auto"
 exe = get_executable_path(env)
 os.chmod(exe, 0o755)
@@ -185,6 +190,6 @@ os.chmod(exe, 0o755)
 #tiktok_style_video("https://www.twitch.tv/videos/2524068137", 1.6, "4:17:23", "4:17:40", "vrai_compte_2", "Anyme le dictateur", "musics/sneaky.mp3", is_test=0, start_music=0)
 
 #tiktok_style_video("https://www.twitch.tv/videos/2527578233", 1.6, "00:07:52", "00:08:10", "vrai_compte_2", "Anyme menace le fils du proprio", "musics/sad.mp3", is_test=0, start_music=0)#tiktok_style_video("https://www.twitch.tv/videos/2527578233", 1.6, "00:07:52", "00:08:10", "vrai_compte_2", "Anyme menace le fils du proprio", "musics/sad.mp3", is_test=0, start_music=0)
-tiktok_style_video("https://www.twitch.tv/videos/2527578233", 1.6, "00:18:38", "00:18:45", "compte_test", "Anyme étienne", exe, music="musics/sneaky.mp3", is_test=0, start_music=0)
+tiktok_style_video("https://www.twitch.tv/videos/2527578233", 1.6, "00:18:38", "00:18:40", "compte_test", "Anyme étienne", exe, music="musics/sneaky.mp3", is_test=0, start_music=0)
 
 atexit.register(cleanup)
