@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 import atexit, os
 from textwrap import fill
 from upload import *
-import sys
+import sys, subprocess
 
 FONT_PATH = "/Library/Fonts/Arial.ttf"  # ← à adapter selon ton système
 TEXT_COLOR = "white"
@@ -56,6 +56,7 @@ def process_audio(clip, noise_path="noise.mp3"):
 
 def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, exe, music=None, start_music=0 ,is_test=0, ):
     os.system("rm -r -f downloads/*")
+    os.system("echo On est la")
 
     start_time = time_str_to_seconds(start_time)
     end_time = time_str_to_seconds(end_time)
@@ -70,13 +71,21 @@ def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, exe, musi
     parse_2 = f"downloads/CLEAN_{moment}.mp4"
     parse_2 = parse_2.replace(":", "-").replace(" ", "_")
 
-    print(" ⛔️ Telechargement du clip")
+    print(" ⛔️ Telechargement du clip\n")
 
-    os.system(f'./{exe} videodownload --id "{URL}" -b {start_time} -e {end_time} -o "{parse}"')
-    print(" ✅ Telechargement terminé")
+    subprocess.run(
+    [f"./{exe}", "videodownload", "--id", URL, "-b", str(start_time), "-e", str(end_time), "-o", parse],
+    stdout=sys.stdout,
+    stderr=sys.stderr
+)
+    print(" ✅ Telechargement terminé\n")
 
 
-    os.system(f"ffmpeg -i '{parse}' -map_chapters -1 -c copy '{parse_2}'")
+    subprocess.run(
+    ["ffmpeg", "-i", parse, "-map_chapters", "-1", "-c", "copy", parse_2],
+    stdout=sys.stdout,
+    stderr=sys.stderr
+)
 
 
     print(f"OUVERTURE de : '{parse_2}'")
@@ -188,6 +197,6 @@ os.chmod(exe, 0o755)
 #tiktok_style_video("https://www.twitch.tv/videos/2524068137", 1.6, "4:17:23", "4:17:40", "vrai_compte_2", "Anyme le dictateur", "musics/sneaky.mp3", is_test=0, start_music=0)
 
 #tiktok_style_video("https://www.twitch.tv/videos/2527578233", 1.6, "00:07:52", "00:08:10", "vrai_compte_2", "Anyme menace le fils du proprio", "musics/sad.mp3", is_test=0, start_music=0)#tiktok_style_video("https://www.twitch.tv/videos/2527578233", 1.6, "00:07:52", "00:08:10", "vrai_compte_2", "Anyme menace le fils du proprio", "musics/sad.mp3", is_test=0, start_music=0)
-tiktok_style_video("https://www.twitch.tv/videos/2527578233", 1.6, "00:08:38", "00:09:02", "vrai_compte_1", "Anyme imite samuel étienne", exe, music="musics/sneaky.mp3", is_test=0, start_music=0)
+tiktok_style_video("https://www.twitch.tv/videos/2527578233", 1.6, "00:18:38", "00:18:45", "compte_test", "Anyme étienne", exe, music="musics/sneaky.mp3", is_test=0, start_music=0)
 
 atexit.register(cleanup)

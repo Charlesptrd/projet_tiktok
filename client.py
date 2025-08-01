@@ -16,7 +16,7 @@ payload = {
 import sys
 import requests
 
-SERVER_URL = "https://ton-app.onrender.com"  # remplace avec ton URL réelle
+SERVER_URL = "https://projet-tiktok.onrender.com"  # remplace avec ton URL réelle
 
 if sys.argv[1] == "upload":
     file_path = sys.argv[2]
