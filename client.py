@@ -1,21 +1,25 @@
 import requests
+import argparse
 
-# 🔧 Change cette URL par celle de ton app déployée (Render, Railway, etc.)
-SERVER_URL = "https://projet-tiktok.onrender.com/run"
+# === Configuration ===
+API_URL = "https://projet-tiktok.onrender.com/run"  # <-- change cette URL
 
-def run_remote_script(script_name):
-    payload = {"script": script_name}
-    try:
-        response = requests.post(SERVER_URL, json=payload)
-        if response.status_code == 200:
-            print(f"✔️ Résultat du script '{script_name}':\n")
-            print(response.text)
-        else:
-            print(f"❌ Erreur {response.status_code} : {response.text}")
-    except requests.exceptions.RequestException as e:
-        print(f"❌ Erreur de connexion : {e}")
+# === Argument parser ===
+parser = argparse.ArgumentParser(description="Lancer un script distant via l'API Flask")
+parser.add_argument("script", help="Nom du script à exécuter (ex: test.py ou twitch)")
+parser.add_argument("--os", default="auto", choices=["auto", "mac", "linux", "win"], help="Système d'exploitation ciblé (défaut: auto)")
 
-if __name__ == "__main__":
-    print("Liste des scripts disponibles : script1.py, script2.py")
-    script = input("Quel script veux-tu lancer ? ")
-    run_remote_script(script)
+args = parser.parse_args()
+
+# === Corps de la requête ===
+payload = {
+    "script": args.script,
+    "os": args.os
+}
+
+try:
+    response = requests.post(API_URL, json=payload)
+    response.raise_for_status()
+    print(f"✅ Réponse du serveur :\n{response.text}")
+except requests.RequestException as e:
+    print(f"❌ Erreur lors de la requête : {e}")
