@@ -27,7 +27,7 @@ def main():
 
     # Étape 4 : Push sur GitHub
     print("🚀 Étape 3 : git push origin main")
-    run("git push origin main")
+    run("git push origin master")
 
     print("✅ Terminé. Render va maintenant redéployer ton app.")
 
