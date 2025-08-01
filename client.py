@@ -1,7 +1,7 @@
 import requests
 
 # 🔧 Change cette URL par celle de ton app déployée (Render, Railway, etc.)
-SERVER_URL = "https://ton-app.onrender.com/run"
+SERVER_URL = "https://projet-tiktok.onrender.com/run"
 
 def run_remote_script(script_name):
     payload = {"script": script_name}
