@@ -32,4 +32,4 @@ def upload_on_tiktok(video_path, tiktok_username, title="Ceci est un titre oubli
     remplacer_video(video_path, "TiktokAutoUploader/VideosDirPath")
     os.system(f' cd TiktokAutoUploader && python cli.py upload --user {tiktok_username} -v "{os.path.basename(video_path)}" -t "{title}" -sc {date}')
 
-#upload_on_tiktok("test.mp4", "compte_test", "Video chpquate #fyp #cat ")
+#upload_on_tiktok("/Users/charles/Downloads/rendus/video_2025-08-01_10-04-07.mp4", "compte_test", "Video chpquate #fyp #cat ")
