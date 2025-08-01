@@ -105,7 +105,7 @@ def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, exe, musi
     background = background.with_effects([HeadBlur(fx,fy,radius, intensity=50)])
     """
     background = VideoFileClip("assets/background2.mp4").subclipped(0, clip.duration)
-    os.system("echo ✅ on a charfe l'arriere plan")
+    os.system("echo ✅ on a charfe larriere plan")
     # === Premier plan : largeur max = 1080px ===
     fg_scale = target_w*zoom / clip_w  # pour que width = 1080px
     foreground = clip.with_effects([
@@ -162,6 +162,9 @@ def tiktok_style_video(URL, zoom, start_time, end_time, compte, titre, exe, musi
     name_temps = name_temps.replace(":", "-").replace(" ", "_")
 
     os.system("echo ✅ on va charger le rendu")
+    output_dir = "rendus"
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
     final.write_videofile(
         f"{name_temps}",
         fps=clip.fps,
